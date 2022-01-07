@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>findAll.html</title>
+</head>
+<body>
+<h2>findAll.html</h2>
+<table>
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>이메일</th>
+        <th>비밀번호</th>
+        <th>이름</th>
+        <th>조회</th>
+        <th>조회(ajax)</th>
+        <th>삭제(get)</th>
+        <th>삭제(delete)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="member: ${memberList}">
+        <td th:text="${member.memberId}">번호</td>
+        <td th:text="${member.memberEmail}">이메일</td>
+        <td th:text="${member.memberPassword}">비밀번호</td>
+        <td th:text="${member.memberName}">이름</td>
+        <td><a th:href="@{|/member/${member.memberId}|}">조회</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
