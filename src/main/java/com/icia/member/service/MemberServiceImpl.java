@@ -65,4 +65,9 @@ public class MemberServiceImpl implements MemberService {
 //        위의 네줄의 코드를 한줄로 줄이기
 //        return MemberDetailDTO.toMemberDetailDTO(mr.findById(memberID).get());
     }
+
+    @Override
+    public void deleteById(Long memberId) {
+        mr.deleteById(memberId);
+    }
 }

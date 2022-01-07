@@ -3,6 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>findAll.html</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        function detail(memberId){
+            console.log(memberId);
+            const reqUrl = "/member/" + memberId;
+            $.ajax({
+                type: 'post',
+                url: reqUrl,
+                dataType: 'json',
+                success: function(result) {
+                    console.log(result);
+                    let output = "";
+                    output += "<table>\n" +
+                        "    <thead>\n" +
+                        "    <tr>\n" +
+                        "        <th>번호</th>\n" +
+                        "        <th>이메일</th>\n" +
+                        "        <th>비밀번호</th>\n" +
+                        "        <th>이름</th>\n" +
+                        "    </tr>\n" +
+                        "    </thead>\n" +
+                        "    <tbody>\n" +
+                        "        <tr>\n" +
+                        "            <td>"+result.memberId + "</td>\n" +
+                        "            <td>"+result.memberEmail + "</td>\n" +
+                        "            <td>"+result.memberPassword + "</td>\n" +
+                        "            <td>"+result.memberName + " </td>\n" +
+                        "        </tr>\n" +
+                        "    </tbody>\n" +
+                        "</table>"
+                    document.getElementById("detail-view").innerHTML = output;
+                },
+                error: function() {
+                    alert('ajax 실패');
+                }
+            });
+        }
+    </script>
 </head>
 <body>
 <h2>findAll.html</h2>
@@ -26,11 +64,13 @@
         <td th:text="${member.memberPassword}">비밀번호</td>
         <td th:text="${member.memberName}">이름</td>
         <td><a th:href="@{|/member/${member.memberId}|}">조회</a></td>
-        <td></td>
-        <td></td>
+        <td><button th:onclick="detail([[${member.memberId}]])">조회(Ajax)</button></td>
+        <td><a th:href="@{|/member/delete/${member.memberId}|}">삭제</a></td>
         <td></td>
     </tr>
     </tbody>
 </table>
+<div id="detail-view"></div>
+
 </body>
 </html>

@@ -68,6 +68,20 @@ public class MemberController {
         return "member/findById";
     }
 
+    //회원 조회_Ajax
+    @PostMapping("{memberId}")
+    public @ResponseBody MemberDetailDTO detail(@PathVariable Long memberId) {
+        MemberDetailDTO member = ms.findById(memberId);
+        return member;
+    }
+
+    // 회원 삭제(/member/delete/5)
+    @GetMapping("delete/{memberId}")
+    public String deleteById(@PathVariable("memberId") Long memberId) {
+        ms.deleteById(memberId);
+        return "redirect:/member/";
+    }
+
 
 
 }
