@@ -8,6 +8,7 @@ import com.icia.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +33,8 @@ public class MemberServiceImpl implements MemberService {
     public boolean login(MemberLoginDTO memberLoginDTO) {
         MemberEntity memberEntity = mr.findByMemberEmail(memberLoginDTO.getMemberEmail());
         if (memberEntity != null) {
-            if (memberLoginDTO.getMemberEmail().equals(memberEntity.getMemberPassword())) {
+            if (memberLoginDTO.getMemberPassword().equals(memberEntity.getMemberPassword())) {
+
                 return true;
             } else {
                 return false;
@@ -70,4 +72,25 @@ public class MemberServiceImpl implements MemberService {
     public void deleteById(Long memberId) {
         mr.deleteById(memberId);
     }
+
+    @Override
+    public MemberDetailDTO findByEmail(String memberEmail) {
+        MemberEntity memberEntity = mr.findByMemberEmail(memberEmail);
+        MemberDetailDTO memberDetailDTO = MemberDetailDTO.toMemberDetailDTO(memberEntity);
+        return memberDetailDTO;
+    }
+
+    @Override
+    public Long update(MemberDetailDTO memberDetailDTO){
+        // update 처리 시 save 메서드 호출, 동일한 memberId가 있으면 덮어쓰기를 함.
+        // Entity 객체가 필요하면 DTO를 Entity로 변환해야 함.
+        // MemberDetailDTO를 MemberEntity로 변경이 필요. 바꾸고자 하는 대상 클래스에 메서드가 추가되어야 함. Entity로 갈 것
+        MemberEntity memberEntity = MemberEntity.toUpdateMember(memberDetailDTO);
+        Long memberId = mr.save(memberEntity).getId();
+        return memberId;
+    }
+
+
+
+
 }
