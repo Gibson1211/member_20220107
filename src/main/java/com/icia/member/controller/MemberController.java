@@ -40,13 +40,16 @@ public class MemberController {
     // 로그인 폼
     @GetMapping("login")
     public String loginForm() {
-
         return "member/login";
     }
 
     // 로그인처리
     @PostMapping("/login")
-    public String login(@ModelAttribute MemberLoginDTO memberLoginDTO, HttpSession session) {
+    public String login(@ModelAttribute MemberLoginDTO memberLoginDTO, HttpSession session,
+                        @RequestParam(defaultValue = "/") String redirectURL) {
+        System.out.println("MemberController.loginForm"); //soutm
+        System.out.println("redirectURL = " + redirectURL); //soutv
+
         boolean loginResult = ms.login(memberLoginDTO);
         System.out.println(memberLoginDTO);
 
@@ -56,10 +59,18 @@ public class MemberController {
 //            return "redirect:/member/";
 
 //            로그인 후 마이페이지 띄우기
-              return "member/mypage";
+//            return "member/mypage";
+            return "redirect:" + redirectURL;  // interceptor 구현 후 리턴값 변경, 사용자가 요청한 주소로 이동
         } else {
             return "member/login";
         }
+    }
+
+    // 로그아웃
+    @GetMapping("logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "index";
     }
 
     @GetMapping

@@ -21,3 +21,10 @@ spring:
   #     데이터를 계속 추가하고자 하는 경우 update라는 명령어로 코딩
   #      ddl: data definition language
   #      Entity를 수정하는 경우에는  create으로 db를 다시 시작하는게 좋음
+
+# mybatis 설정
+mybatis:
+# resources/mapper/ 에 있는 모든 xml 파일
+  mapper-locations: mapper/*.xml
+  # alias 설정
+  type-aliases-package: com.icia.member.dto
